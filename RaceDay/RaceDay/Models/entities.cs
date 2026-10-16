@@ -1,135 +1,142 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RaceDay.Models.API.Models;
 
 public class Organiser
 {
+    [Key]
     public int OrganizerID { get; set; }
 
-    public string Name { get; set; } = "";
+    [Required, MaxLength(150)]
+    public string Name { get; set; } = string.Empty;
 
-    public string ContactInfo { get; set; } = "";
+    [Required, EmailAddress, MaxLength(150)]
+    public string ContactInfo { get; set; } = string.Empty;
 
-    public string OrganizationName { get; set; } = "";
+    [Required, MaxLength(150)]
+    public string OrganizationName { get; set; } = string.Empty;
 
-    public string PasswordHash { get; set; } = "";
+    [Required]
+    public string PasswordHash { get; set; } = string.Empty;
 
-    public ICollection<EventOrganiser> EventOrganisers { get; set; }
-        = new List<EventOrganiser>();
+    public ICollection<EventOrganiser> EventOrganisers { get; set; } = new List<EventOrganiser>();
 }
 
-
-// This class stores the personal details of each participant.
 public class Participant
 {
-    // This uniquely identifies each participant.
+    [Key]
     public int ParticipantID { get; set; }
 
-    public string FirstName { get; set; } = "";
-    public string LastName { get; set; } = "";
-    public string Gender { get; set; } = "";
+    [Required, MaxLength(100)]
+    public string FirstName { get; set; } = string.Empty;
 
-    // This helps calculate the participant's age.
+    [Required, MaxLength(100)]
+    public string LastName { get; set; } = string.Empty;
+
+    [MaxLength(50)]
+    public string Gender { get; set; } = string.Empty;
+
+    [DataType(DataType.Date)]
     public DateTime DateOfBirth { get; set; }
 
-    // This stores the participant's contact email.
-    public string ContactInfo { get; set; } = "";
+    [Required, EmailAddress, MaxLength(150)]
+    public string ContactInfo { get; set; } = string.Empty;
 
-    // The password is hashed before it is saved to the database.
-    public string PasswordHash { get; set; } = "";
+    [Required]
+    public string PasswordHash { get; set; } = string.Empty;
 
-    // One participant can have multiple event registrations.
-    public ICollection<Registration> Registrations { get; set; }
-        = new List<Registration>();
+    public ICollection<Registration> Registrations { get; set; } = new List<Registration>();
 }
 
-// This class stores information about running, walking and cycling events.
 public class Event
 {
-    // This is the unique ID for an event.
+    [Key]
     public int EventID { get; set; }
 
-    public string Name { get; set; } = "";
-    public string Description { get; set; } = "";
-    public string Location { get; set; } = "";
+    [Required, MaxLength(150)]
+    public string Name { get; set; } = string.Empty;
+
+    [MaxLength(1000)]
+    public string Description { get; set; } = string.Empty;
+
+    [Required, MaxLength(200)]
+    public string Location { get; set; } = string.Empty;
+
     public DateTime EventDate { get; set; }
 
-    // The event type can be Run, Walk or Cycle.
+    [Required, MaxLength(50)]
     public string EventType { get; set; } = "Run";
 
-    // These fields store extra information about the event route and weather.
-    public string RouteDetails { get; set; } = "";
-    public string WeatherInfo { get; set; } = "";
+    [MaxLength(1000)]
+    public string RouteDetails { get; set; } = string.Empty;
 
-    // An event can have multiple organisers and categories.
-    public ICollection<EventOrganiser> EventOrganisers { get; set; }
-        = new List<EventOrganiser>();
+    [MaxLength(500)]
+    public string WeatherInfo { get; set; } = string.Empty;
 
-    public ICollection<Category> Categories { get; set; }
-        = new List<Category>();
+    public ICollection<EventOrganiser> EventOrganisers { get; set; } = new List<EventOrganiser>();
+    public ICollection<Category> Categories { get; set; } = new List<Category>();
 }
+
 public class EventOrganiser
 {
-    public int EventOrganiserID { get; set; }
-
     public int EventID { get; set; }
     public Event Event { get; set; } = null!;
 
     public int OrganizerID { get; set; }
     public Organiser Organiser { get; set; } = null!;
-    public object Name { get; internal set; }
-    public object OrganizationName { get; internal set; }
-    public object ContactInfo { get; internal set; }
-    public string PasswordHash { get; internal set; }
-
-    public class Category
-    {
-        public int CategoryID { get; set; }
-
-        public int EventID { get; set; }
-        public Event Event { get; set; } = null!;
-
-        [Required, MaxLength(100)]
-        public string Name { get; set; } = "";
-
-        public decimal Distance { get; set; }
-
-        public int? AgeRestriction { get; set; }
-    }
-
-    public class Registration
-    {
-        public int RegistrationID { get; set; }
-
-        public int ParticipantID { get; set; }
-        public Participant Participant { get; set; } = null!;
-
-        public int CategoryID { get; set; }
-        public Category Category { get; set; } = null!;
-
-        public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
-
-        [Required, MaxLength(30)]
-        public string PaymentStatus { get; set; } = "Pending";
-
-        public Result? Result { get; set; }
-        public object Event { get; internal set; }
-    }
-
-    public class Result
-    {
-        public int ResultID { get; set; }
-
-        public int RegistrationID { get; set; }
-        public Registration Registration { get; set; } = null!;
-
-        public TimeSpan? FinishTime { get; set; }
-
-        public int? Position { get; set; }
-
-        [MaxLength(500)]
-        public string? SplitTimes { get; set; }
-    }
 }
 
+public class Category
+{
+    [Key]
+    public int CategoryID { get; set; }
+
+    public int EventID { get; set; }
+    public Event Event { get; set; } = null!;
+
+    [Required, MaxLength(100)]
+    public string Name { get; set; } = string.Empty;
+
+    [Column(TypeName = "decimal(8,2)")]
+    public decimal Distance { get; set; }
+
+    public int? AgeRestriction { get; set; }
+
+    public ICollection<Registration> Registrations { get; set; } = new List<Registration>();
+}
+
+public class Registration
+{
+    [Key]
+    public int RegistrationID { get; set; }
+
+    public int ParticipantID { get; set; }
+    public Participant Participant { get; set; } = null!;
+
+    public int CategoryID { get; set; }
+    public Category Category { get; set; } = null!;
+
+    public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
+
+    [Required, MaxLength(30)]
+    public string PaymentStatus { get; set; } = "Pending";
+
+    public Result? Result { get; set; }
+}
+
+public class Result
+{
+    [Key]
+    public int ResultID { get; set; }
+
+    public int RegistrationID { get; set; }
+    public Registration Registration { get; set; } = null!;
+
+    public TimeSpan? FinishTime { get; set; }
+
+    public int? Position { get; set; }
+
+    [MaxLength(500)]
+    public string? SplitTimes { get; set; }
+}
