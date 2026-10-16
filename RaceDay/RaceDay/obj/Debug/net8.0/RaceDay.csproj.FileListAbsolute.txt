@@ -1,0 +1,8 @@
+C:\Users\Student\source\repos\RaceDay\RaceDay\obj\Debug\net8.0\RaceDay.csproj.AssemblyReference.cache
+C:\Users\Student\source\repos\RaceDay\RaceDay\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\Student\source\repos\RaceDay\RaceDay\obj\Debug\net8.0\RaceDay.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Student\source\repos\RaceDay\RaceDay\obj\Debug\net8.0\RaceDay.AssemblyInfoInputs.cache
+C:\Users\Student\source\repos\RaceDay\RaceDay\obj\Debug\net8.0\RaceDay.AssemblyInfo.cs
+C:\Users\Student\source\repos\RaceDay\RaceDay\obj\Debug\net8.0\RaceDay.csproj.CoreCompileInputs.cache
+C:\Users\Student\source\repos\RaceDay\RaceDay\obj\Debug\net8.0\RaceDay.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Student\source\repos\RaceDay\RaceDay\obj\Debug\net8.0\RaceDay.MvcApplicationPartsAssemblyInfo.cache
